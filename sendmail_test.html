@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>メール送信テスト</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fontkit/1.1.1/fontkit.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Helvetica Neue', sans-serif;
+    background: #f0f2f5;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    padding: 40px 36px;
+    width: 100%;
+    max-width: 480px;
+  }
+
+  h1 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 32px;
+  }
+
+  label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 6px;
+    letter-spacing: 0.03em;
+  }
+
+  input[type="email"],
+  textarea {
+    width: 100%;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.97rem;
+    color: #222;
+    background: #fafafa;
+    transition: border-color 0.2s;
+    outline: none;
+    font-family: inherit;
+  }
+
+  input[type="email"]:focus,
+  textarea:focus {
+    border-color: #4f8ef7;
+    background: #fff;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 110px;
+  }
+
+  .field {
+    margin-bottom: 22px;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #4f8ef7 0%, #6c63ff 100%);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: opacity 0.2s, transform 0.1s;
+    margin-top: 8px;
+  }
+
+  .btn:hover { opacity: 0.92; }
+  .btn:active { transform: scale(0.98); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  #status {
+    margin-top: 18px;
+    font-size: 0.9rem;
+    text-align: center;
+    min-height: 24px;
+    color: #555;
+  }
+
+  #status.ok  { color: #2e7d32; font-weight: 600; }
+  #status.err { color: #c62828; font-weight: 600; }
+  #status.ing { color: #1565c0; }
+
+  .note {
+    font-size: 0.78rem;
+    color: #aaa;
+    margin-top: 24px;
+    text-align: center;
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>📨 メール送信テスト</h1>
+  <p class="subtitle">sendmail.pdf にメモを書き込んで添付送信します</p>
+
+  <div class="field">
+    <label for="sendmail">送信先メールアドレス</label>
+    <input type="email" id="sendmail" placeholder="example@email.com">
+  </div>
+
+  <div class="field">
+    <label for="memo">メモ（Memoフィールドに書き込まれます）</label>
+    <textarea id="memo" placeholder="ここにメモを入力してください"></textarea>
+  </div>
+
+  <button class="btn" id="sendBtn" onclick="sendPDF()">📎 PDFを作成してメール送信</button>
+  <div id="status"></div>
+
+  <p class="note">
+    ※ このテストでは pdf-lib でPDFに書き込み後、<br>
+    Formspree 経由でメール送信します。<br>
+    ※ ipaexg.ttf が同じフォルダに必要です。
+  </p>
+</div>
+
+<script>
+// =============================
+// Formspree のエンドポイントURL
+// ここを自分のFormspreeのURLに変更してください
+// 例: https://formspree.io/f/xxxxxxxe
+// =============================
+const FORMSPREE_URL = "https://formspree.io/f/YOUR_FORM_ID";
+
+async function sendPDF() {
+  const emailVal = document.getElementById('sendmail').value.trim();
+  const memoVal  = document.getElementById('memo').value.trim();
+  const status   = document.getElementById('status');
+  const btn      = document.getElementById('sendBtn');
+
+  // バリデーション
+  if (!emailVal) {
+    setStatus('err', '⚠️ メールアドレスを入力してください');
+    return;
+  }
+  if (!memoVal) {
+    setStatus('err', '⚠️ メモを入力してください');
+    return;
+  }
+
+  btn.disabled = true;
+  setStatus('ing', '⏳ PDFを作成中...');
+
+  try {
+    // 1. sendmail.pdf を取得
+    const pdfRes = await fetch('sendmail.pdf');
+    if (!pdfRes.ok) throw new Error('sendmail.pdf が見つかりません');
+    const pdfBytes = await pdfRes.arrayBuffer();
+
+    // 2. フォントを取得
+    setStatus('ing', '⏳ フォントを読み込み中...');
+    const fontRes = await fetch('ipaexg.ttf');
+    if (!fontRes.ok) throw new Error('ipaexg.ttf が見つかりません');
+    const fontBytes = await fontRes.arrayBuffer();
+
+    // 3. pdf-lib で書き込み
+    setStatus('ing', '⏳ PDFにメモを書き込み中...');
+    const { PDFDocument } = PDFLib;
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+    pdfDoc.registerFontkit(fontkit);
+    const font = await pdfDoc.embedFont(fontBytes);
+
+    const form = pdfDoc.getForm();
+
+    // sendmailフィールドにメールアドレスを書き込む
+    try {
+      const sendmailField = form.getTextField('sendmail');
+      sendmailField.setText(emailVal);
+      sendmailField.updateAppearances(font);
+    } catch(e) {
+      console.warn('sendmailフィールドが見つかりません:', e);
+    }
+
+    // Memoフィールドにメモを書き込む
+    try {
+      const memoField = form.getTextField('Memo');
+      memoField.setText(memoVal);
+      memoField.updateAppearances(font);
+    } catch(e) {
+      console.warn('Memoフィールドが見つかりません:', e);
+    }
+
+    const filledPdfBytes = await pdfDoc.save();
+
+    // 4. Formspree に送信
+    setStatus('ing', '⏳ メールを送信中...');
+
+    // Base64に変換
+    const base64 = btoa(
+      new Uint8Array(filledPdfBytes).reduce((data, byte) => data + String.fromCharCode(byte), '')
+    );
+
+    // Formspree はファイル添付に対応していないため
+    // ここでは Base64データをメール本文に含める方式でテストします
+    // ※ 実際の添付には別のサービスが必要です（後述）
+    const formData = new FormData();
+    formData.append('_replyto', emailVal);
+    formData.append('email', emailVal);
+    formData.append('memo', memoVal);
+    formData.append('pdf_base64', base64);  // ← 本文にBase64を含める（テスト用）
+
+    // Blob として添付を試みる
+    const blob = new Blob([filledPdfBytes], { type: 'application/pdf' });
+    formData.append('attachment', blob, 'sendmail_filled.pdf');
+
+    const res = await fetch(FORMSPREE_URL, {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || '送信に失敗しました');
+    }
+
+    setStatus('ok', '✅ 送信完了！メールを確認してください');
+
+  } catch(e) {
+    console.error(e);
+    setStatus('err', '❌ エラー: ' + e.message);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function setStatus(cls, msg) {
+  const el = document.getElementById('status');
+  el.className = cls;
+  el.textContent = msg;
+}
+</script>
+</body>
+</html>
