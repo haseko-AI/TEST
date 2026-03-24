@@ -151,7 +151,7 @@
 // ここを自分のFormspreeのURLに変更してください
 // 例: https://formspree.io/f/xxxxxxxe
 // =============================
-const FORMSPREE_URL = "https://formspree.io/f/mbdzvbay";
+const SENDMAIL_URL = "https://aidirector.shop/sendmail.php";
 
 async function sendPDF() {
   const emailVal = document.getElementById('sendmail').value.trim();
@@ -224,25 +224,19 @@ async function sendPDF() {
     // Formspree はファイル添付に対応していないため
     // ここでは Base64データをメール本文に含める方式でテストします
     // ※ 実際の添付には別のサービスが必要です（後述）
-    const formData = new FormData();
-    formData.append('_replyto', emailVal);
-    formData.append('email', emailVal);
-    formData.append('memo', memoVal);
-    formData.append('pdf_base64', base64);  // ← 本文にBase64を含める（テスト用）
-
-    // Blob として添付を試みる
-    const blob = new Blob([filledPdfBytes], { type: 'application/pdf' });
-    formData.append('attachment', blob, 'sendmail_filled.pdf');
-
-    const res = await fetch(FORMSPREE_URL, {
+    const res = await fetch(SENDMAIL_URL, {
       method: 'POST',
-      body: formData,
-      headers: { 'Accept': 'application/json' }
+      body: JSON.stringify({
+        to:   emailVal,
+        memo: memoVal,
+        pdf:  base64
+      }),
+      headers: { 'Content-Type': 'application/json' }
     });
 
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.error || '送信に失敗しました');
+    const result = await res.json();
+    if (!result.success) {
+      throw new Error(result.error || '送信に失敗しました');
     }
 
     setStatus('ok', '✅ 送信完了！メールを確認してください');
