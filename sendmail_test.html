@@ -219,30 +219,28 @@ async function sendPDF() {
 
     const filledPdfBytes = await pdfDoc.save();
 
-    // 4. Formspree に送信
+    // 4. XREAのPHPに送信
     setStatus('ing', '⏳ メールを送信中...');
 
-    // Base64に変換
     const base64 = btoa(
       new Uint8Array(filledPdfBytes).reduce((data, byte) => data + String.fromCharCode(byte), '')
     );
 
-    // Formspree はファイル添付に対応していないため
-    // ここでは Base64データをメール本文に含める方式でテストします
-    // ※ 実際の添付には別のサービスが必要です（後述）
+    const formData = new FormData();
+    formData.append('to',         emailVal);
+    formData.append('subject',    'メール送信テスト');
+    formData.append('body',       'メモ：' + memoVal);
+    formData.append('filename',   'sendmail.pdf');
+    formData.append('pdf_base64', base64);
+
     const res = await fetch(SENDMAIL_URL, {
       method: 'POST',
-      body: JSON.stringify({
-        to:   emailVal,
-        memo: memoVal,
-        pdf:  base64
-      }),
-      headers: { 'Content-Type': 'application/json' }
+      body: formData
     });
 
     const result = await res.json();
     if (!result.success) {
-      throw new Error(result.error || '送信に失敗しました');
+      throw new Error(result.message || '送信に失敗しました');
     }
 
     setStatus('ok', '✅ 送信完了！メールを確認してください');
