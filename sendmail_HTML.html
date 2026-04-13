@@ -234,14 +234,14 @@ function buildHtmlEmail(subject, bodyContent) {
 <style>
   body{margin:0;padding:0;background:#f0f2f5;font-family:'Hiragino Kaku Gothic ProN',Meiryo,sans-serif;}
   .wrap{max-width:600px;margin:20px auto;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 20px rgba(0,0,0,0.1);}
-  .hd{background:#0a2d6e;padding:28px 30px 0;position:relative;overflow:hidden;}
-  .hd-moon{position:absolute;top:-30px;right:-80px;width:260px;height:130px;border-radius:50%;background:radial-gradient(ellipse at 40% 40%, #2255a8 0%, #1a3a80 45%, #0d2460 100%);}
-  .hd-ai{position:absolute;top:2px;right:10px;font-family:Georgia,serif;font-size:100px;font-weight:700;color:rgba(255,255,255,0.25);line-height:1;pointer-events:none;}
+  .hd{background:#0a2d6e;padding:28px 30px 0;position:relative;overflow:hidden;min-height:140px;}
+  .hd-moon{position:absolute;top:-20px;right:-70px;width:270px;height:110px;border-radius:50%;background:radial-gradient(ellipse at 50% 50%, #0a2d6e 0%, #1e3f8a 65%, #3060a8 100%);}
+  .hd-ai{position:absolute;top:-8px;right:14px;font-family:Georgia,serif;font-size:88px;font-weight:700;color:rgba(255,255,255,0.18);line-height:1;pointer-events:none;}
   .hd-top{position:relative;padding-bottom:16px;}
-  .hd-label{font-size:10px;letter-spacing:3px;color:#c8a84b;text-transform:uppercase;margin-bottom:6px;}
+  .hd-label{font-size:10px;letter-spacing:3px;color:#c8a84b;text-transform:uppercase;margin-bottom:8px;}
   .hd-title{font-size:20px;font-weight:700;color:#fff;line-height:1.4;}
   .hd-line{border:none;border-top:1.5px solid #c8a84b;margin:0;}
-  .hd-sub{padding:8px 30px 12px;font-size:11px;color:rgba(255,255,255,0.45);}
+  .hd-sub{padding:8px 30px 14px;font-size:11px;color:rgba(255,255,255,0.45);}
   .body{padding:30px;color:#1a2540;font-size:14px;line-height:1.9;}
   .body p{margin-bottom:14px;}
   .footer{background:#f4f6fb;padding:16px 30px;font-size:11px;color:#8a9ab8;border-top:1px solid #e0e7f0;}
@@ -254,7 +254,7 @@ function buildHtmlEmail(subject, bodyContent) {
     <div class="hd-moon"></div>
     <div class="hd-ai">AI</div>
     <div class="hd-top">
-      <div class="hd-label">AI Director System</div>
+      <div class="hd-label">AI DIRECTOR SYSTEM</div>
       <div class="hd-title">${subject || '件名'}</div>
     </div>
     <hr class="hd-line">
