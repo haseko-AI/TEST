@@ -12,7 +12,7 @@
     --blue-mid:    #1a4fa8;
     --blue-light:  #3a7bd5;
     --blue-pale:   #e8f0fb;
-    --accent:      #f0a500;
+    --accent:      #c8a84b;
     --white:       #ffffff;
     --gray-light:  #f4f6fb;
     --gray-border: #d0d9ee;
@@ -22,353 +22,83 @@
     --error:       #c0392b;
     --radius:      10px;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: var(--gray-light); color: var(--text-main); min-height: 100vh; }
 
-  body {
-    font-family: 'Noto Sans JP', sans-serif;
-    background: var(--gray-light);
-    color: var(--text-main);
-    min-height: 100vh;
-  }
+  .page-header { background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-mid) 60%, var(--blue-light) 100%); padding: 28px 32px 24px; position: relative; overflow: hidden; }
+  .page-header::after { content: 'AI'; position: absolute; top: -18px; right: -30px; font-family: Georgia, serif; font-size: 110px; font-weight: 700; color: rgba(255,255,255,0.07); pointer-events: none; }
+  .header-label { font-family: 'Rajdhani', sans-serif; font-size: 11px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; margin-bottom: 6px; }
+  .header-title { font-family: 'Rajdhani', sans-serif; font-size: 26px; font-weight: 700; color: var(--white); letter-spacing: 1px; }
+  .header-sub { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 4px; }
+  .header-badge { display: inline-block; background: var(--accent); color: var(--blue-deep); font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-left: 10px; vertical-align: middle; font-family: 'Rajdhani', sans-serif; letter-spacing: 1px; }
 
-  /* ===== ヘッダー ===== */
-  .page-header {
-    background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-mid) 60%, var(--blue-light) 100%);
-    padding: 28px 32px 24px;
-    position: relative;
-    overflow: hidden;
-  }
-  .page-header::before {
-    content: '';
-    position: absolute;
-    top: -40px; right: -40px;
-    width: 220px; height: 220px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.05);
-  }
-  .page-header::after {
-    content: '';
-    position: absolute;
-    bottom: -60px; left: 30%;
-    width: 300px; height: 300px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.03);
-  }
-  .header-label {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-  .header-title {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--white);
-    letter-spacing: 1px;
-  }
-  .header-sub {
-    font-size: 12px;
-    color: rgba(255,255,255,0.6);
-    margin-top: 4px;
-  }
-  .header-badge {
-    display: inline-block;
-    background: var(--accent);
-    color: var(--blue-deep);
-    font-size: 10px;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 20px;
-    margin-left: 10px;
-    vertical-align: middle;
-    font-family: 'Rajdhani', sans-serif;
-    letter-spacing: 1px;
-  }
+  .container { max-width: 740px; margin: 0 auto; padding: 28px 16px 60px; }
 
-  /* ===== メインコンテナ ===== */
-  .container {
-    max-width: 740px;
-    margin: 0 auto;
-    padding: 28px 16px 60px;
-  }
-
-  /* ===== カード ===== */
-  .card {
-    background: var(--white);
-    border-radius: var(--radius);
-    border: 1px solid var(--gray-border);
-    margin-bottom: 20px;
-    overflow: hidden;
-    box-shadow: 0 2px 12px rgba(10,45,110,0.07);
-  }
-  .card-header {
-    background: var(--blue-pale);
-    border-bottom: 1px solid var(--gray-border);
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .card-header-icon {
-    width: 20px; height: 20px;
-    background: var(--blue-mid);
-    border-radius: 5px;
-    display: flex; align-items: center; justify-content: center;
-  }
+  .card { background: var(--white); border-radius: var(--radius); border: 1px solid var(--gray-border); margin-bottom: 20px; overflow: hidden; box-shadow: 0 2px 12px rgba(10,45,110,0.07); }
+  .card-header { background: var(--blue-pale); border-bottom: 1px solid var(--gray-border); padding: 12px 20px; display: flex; align-items: center; gap: 8px; }
+  .card-header-icon { width: 20px; height: 20px; background: var(--blue-mid); border-radius: 5px; display: flex; align-items: center; justify-content: center; }
   .card-header-icon svg { width: 12px; height: 12px; fill: white; }
-  .card-header-title {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--blue-deep);
-    letter-spacing: 0.5px;
-  }
+  .card-header-title { font-size: 12px; font-weight: 700; color: var(--blue-deep); letter-spacing: 0.5px; }
   .card-body { padding: 20px; }
 
-  /* ===== フォーム要素 ===== */
   .form-row { margin-bottom: 14px; }
-  .form-label {
-    display: block;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--text-sub);
-    letter-spacing: 0.5px;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-  }
-  .form-label .required {
-    color: var(--error);
-    margin-left: 3px;
-  }
-  .form-hint {
-    font-size: 10px;
-    color: var(--text-sub);
-    margin-top: 4px;
-  }
+  .form-label { display: block; font-size: 11px; font-weight: 700; color: var(--text-sub); letter-spacing: 0.5px; margin-bottom: 6px; text-transform: uppercase; }
+  .form-label .required { color: var(--error); margin-left: 3px; }
+  .form-hint { font-size: 10px; color: var(--text-sub); margin-top: 4px; }
 
-  input[type="text"], input[type="email"], textarea, select {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1.5px solid var(--gray-border);
-    border-radius: 7px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 13px;
-    color: var(--text-main);
-    background: var(--white);
-    transition: border-color 0.2s, box-shadow 0.2s;
-    outline: none;
-  }
-  input[type="text"]:focus,
-  input[type="email"]:focus,
-  textarea:focus {
-    border-color: var(--blue-light);
-    box-shadow: 0 0 0 3px rgba(58,123,213,0.12);
-  }
+  input[type="text"], textarea { width: 100%; padding: 10px 14px; border: 1.5px solid var(--gray-border); border-radius: 7px; font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: var(--text-main); background: var(--white); transition: border-color 0.2s, box-shadow 0.2s; outline: none; }
+  input[type="text"]:focus, textarea:focus { border-color: var(--blue-light); box-shadow: 0 0 0 3px rgba(58,123,213,0.12); }
   textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
 
-  /* 宛先タグ入力 */
-  .tag-input-wrap {
-    border: 1.5px solid var(--gray-border);
-    border-radius: 7px;
-    padding: 6px 10px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    align-items: center;
-    min-height: 44px;
-    cursor: text;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .tag-input-wrap:focus-within {
-    border-color: var(--blue-light);
-    box-shadow: 0 0 0 3px rgba(58,123,213,0.12);
-  }
-  .tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: var(--blue-pale);
-    border: 1px solid var(--gray-border);
-    border-radius: 20px;
-    padding: 2px 10px 2px 10px;
-    font-size: 12px;
-    color: var(--blue-deep);
-    font-weight: 500;
-  }
-  .tag-remove {
-    cursor: pointer;
-    color: var(--blue-mid);
-    font-size: 14px;
-    line-height: 1;
-    transition: color 0.15s;
-  }
+  .tag-input-wrap { border: 1.5px solid var(--gray-border); border-radius: 7px; padding: 6px 10px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 44px; cursor: text; transition: border-color 0.2s, box-shadow 0.2s; }
+  .tag-input-wrap:focus-within { border-color: var(--blue-light); box-shadow: 0 0 0 3px rgba(58,123,213,0.12); }
+  .tag { display: inline-flex; align-items: center; gap: 5px; background: var(--blue-pale); border: 1px solid var(--gray-border); border-radius: 20px; padding: 2px 10px; font-size: 12px; color: var(--blue-deep); font-weight: 500; }
+  .tag-remove { cursor: pointer; color: var(--blue-mid); font-size: 14px; line-height: 1; transition: color 0.15s; }
   .tag-remove:hover { color: var(--error); }
-  .tag-input {
-    border: none !important;
-    outline: none !important;
-    padding: 2px 4px !important;
-    min-width: 160px;
-    font-size: 13px;
-    flex: 1;
-    box-shadow: none !important;
-  }
+  .tag-input { border: none !important; outline: none !important; padding: 2px 4px !important; min-width: 160px; font-size: 13px; flex: 1; box-shadow: none !important; }
 
-  /* テンプレート選択 */
-  .template-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 16px;
-  }
-  .template-btn {
-    border: 1.5px solid var(--gray-border);
-    border-radius: 8px;
-    padding: 10px 8px;
-    background: var(--white);
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.2s;
-    font-family: 'Noto Sans JP', sans-serif;
-  }
+  .template-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+  .template-btn { border: 1.5px solid var(--gray-border); border-radius: 8px; padding: 10px 8px; background: var(--white); cursor: pointer; text-align: center; transition: all 0.2s; font-family: 'Noto Sans JP', sans-serif; }
   .template-btn:hover { border-color: var(--blue-light); background: var(--blue-pale); }
   .template-btn.active { border-color: var(--blue-mid); background: var(--blue-pale); }
   .template-btn .t-icon { font-size: 20px; margin-bottom: 4px; }
   .template-btn .t-name { font-size: 11px; font-weight: 700; color: var(--text-main); }
   .template-btn .t-desc { font-size: 10px; color: var(--text-sub); margin-top: 2px; }
 
-  /* プレビュー */
-  .preview-frame {
-    border: 1.5px solid var(--gray-border);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  .preview-bar {
-    background: #e8ecf0;
-    padding: 6px 12px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .preview-dot {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-  }
+  .preview-frame { border: 1.5px solid var(--gray-border); border-radius: 8px; overflow: hidden; }
+  .preview-bar { background: #e8ecf0; padding: 6px 12px; display: flex; align-items: center; gap: 6px; }
+  .preview-dot { width: 10px; height: 10px; border-radius: 50%; }
   .preview-bar span { font-size: 11px; color: var(--text-sub); margin-left: 6px; }
-  .preview-content {
-    height: 280px;
-    overflow-y: auto;
-    background: #f8f8f8;
-  }
-  .preview-content iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    background: white;
-  }
+  .preview-content { height: 340px; overflow-y: auto; background: #f8f8f8; }
+  .preview-content iframe { width: 100%; height: 100%; border: none; background: white; }
 
-  /* 送信ボタン */
-  .send-btn {
-    width: 100%;
-    padding: 14px;
-    background: linear-gradient(135deg, var(--blue-mid), var(--blue-light));
-    color: var(--white);
-    border: none;
-    border-radius: var(--radius);
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 17px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    box-shadow: 0 4px 16px rgba(26,79,168,0.3);
-  }
-  .send-btn:hover:not(:disabled) {
-    background: linear-gradient(135deg, var(--blue-deep), var(--blue-mid));
-    box-shadow: 0 6px 20px rgba(26,79,168,0.4);
-    transform: translateY(-1px);
-  }
-  .send-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-  }
-  .send-btn .spinner {
-    width: 18px; height: 18px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-top-color: white;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    display: none;
-  }
+  .send-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--blue-mid), var(--blue-light)); color: var(--white); border: none; border-radius: var(--radius); font-family: 'Rajdhani', sans-serif; font-size: 17px; font-weight: 700; letter-spacing: 2px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 16px rgba(26,79,168,0.3); }
+  .send-btn:hover:not(:disabled) { background: linear-gradient(135deg, var(--blue-deep), var(--blue-mid)); box-shadow: 0 6px 20px rgba(26,79,168,0.4); transform: translateY(-1px); }
+  .send-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .send-btn .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; display: none; }
   .send-btn.loading .spinner { display: block; }
-  .send-btn.loading .btn-text { opacity: 0.7; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ステータス */
-  .status-box {
-    border-radius: 8px;
-    padding: 14px 18px;
-    font-size: 13px;
-    display: none;
-    align-items: center;
-    gap: 10px;
-    margin-top: 14px;
-    font-weight: 500;
-  }
-  .status-box.success {
-    background: #eafaf3;
-    border: 1px solid #a8dfc4;
-    color: var(--success);
-    display: flex;
-  }
-  .status-box.error {
-    background: #fdf0ee;
-    border: 1px solid #f0b8b0;
-    color: var(--error);
-    display: flex;
-  }
+  .status-box { border-radius: 8px; padding: 14px 18px; font-size: 13px; display: none; align-items: center; gap: 10px; margin-top: 14px; font-weight: 500; }
+  .status-box.success { background: #eafaf3; border: 1px solid #a8dfc4; color: var(--success); display: flex; }
+  .status-box.error { background: #fdf0ee; border: 1px solid #f0b8b0; color: var(--error); display: flex; }
 
-  /* フッター */
-  .page-footer {
-    text-align: center;
-    font-size: 11px;
-    color: var(--text-sub);
-    padding: 20px;
-    letter-spacing: 0.5px;
-  }
-
-  @media (max-width: 480px) {
-    .template-grid { grid-template-columns: repeat(2, 1fr); }
-    .page-header { padding: 20px 18px 18px; }
-  }
+  .page-footer { text-align: center; font-size: 11px; color: var(--text-sub); padding: 20px; letter-spacing: 0.5px; }
 </style>
 </head>
 <body>
 
 <div class="page-header">
   <div class="header-label">AI Director System</div>
-  <div class="header-title">
-    HTMLメール送信テスト
-    <span class="header-badge">TEST</span>
-  </div>
+  <div class="header-title">HTMLメール送信テスト<span class="header-badge">TEST</span></div>
   <div class="header-sub">sendmail_HTML.html — aitech-jp.com proxy経由</div>
 </div>
 
 <div class="container">
 
-  <!-- 宛先カード -->
   <div class="card">
     <div class="card-header">
-      <div class="card-header-icon">
-        <svg viewBox="0 0 16 16"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.708 2.825L15 11.105V5.383zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741zM1 11.105l4.708-2.897L1 5.383v5.722z"/></svg>
-      </div>
+      <div class="card-header-icon"><svg viewBox="0 0 16 16"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.708 2.825L15 11.105V5.383zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741zM1 11.105l4.708-2.897L1 5.383v5.722z"/></svg></div>
       <div class="card-header-title">宛先設定</div>
     </div>
     <div class="card-body">
@@ -398,33 +128,23 @@
     </div>
   </div>
 
-  <!-- テンプレートカード -->
   <div class="card">
     <div class="card-header">
-      <div class="card-header-icon">
-        <svg viewBox="0 0 16 16"><path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/><path d="M6.854 4.646a.5.5 0 0 1 0 .708L4.207 8l2.647 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0zm2.292 0a.5.5 0 0 0 0 .708L11.793 8l-2.647 2.646a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708 0z"/></svg>
-      </div>
+      <div class="card-header-icon"><svg viewBox="0 0 16 16"><path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/><path d="M6.854 4.646a.5.5 0 0 1 0 .708L4.207 8l2.647 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0zm2.292 0a.5.5 0 0 0 0 .708L11.793 8l-2.647 2.646a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708 0z"/></svg></div>
       <div class="card-header-title">HTMLテンプレート選択</div>
     </div>
     <div class="card-body">
       <div class="template-grid">
         <button class="template-btn active" onclick="selectTemplate('report')" id="tpl-report">
-          <div class="t-icon">📋</div>
-          <div class="t-name">月報通知</div>
-          <div class="t-desc">レポート送付</div>
+          <div class="t-icon">📋</div><div class="t-name">月報通知</div><div class="t-desc">レポート送付</div>
         </button>
         <button class="template-btn" onclick="selectTemplate('notice')" id="tpl-notice">
-          <div class="t-icon">🔔</div>
-          <div class="t-name">お知らせ</div>
-          <div class="t-desc">一般通知</div>
+          <div class="t-icon">🔔</div><div class="t-name">お知らせ</div><div class="t-desc">一般通知</div>
         </button>
         <button class="template-btn" onclick="selectTemplate('confirm')" id="tpl-confirm">
-          <div class="t-icon">✅</div>
-          <div class="t-name">確認依頼</div>
-          <div class="t-desc">承認・確認</div>
+          <div class="t-icon">✅</div><div class="t-name">確認依頼</div><div class="t-desc">承認・確認</div>
         </button>
       </div>
-
       <div class="form-row">
         <label class="form-label">本文（カスタム編集可）</label>
         <textarea id="body-text" rows="5"></textarea>
@@ -433,12 +153,9 @@
     </div>
   </div>
 
-  <!-- プレビューカード -->
   <div class="card">
     <div class="card-header">
-      <div class="card-header-icon">
-        <svg viewBox="0 0 16 16"><path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/><path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/></svg>
-      </div>
+      <div class="card-header-icon"><svg viewBox="0 0 16 16"><path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/><path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/></svg></div>
       <div class="card-header-title">メールプレビュー</div>
     </div>
     <div class="card-body" style="padding:16px;">
@@ -456,110 +173,58 @@
     </div>
   </div>
 
-  <!-- 送信 -->
   <button class="send-btn" id="send-btn" onclick="sendMail()">
     <div class="spinner"></div>
     <span class="btn-text">✈ テスト送信する</span>
   </button>
-
-  <div class="status-box" id="status-box">
-    <span id="status-icon"></span>
-    <span id="status-msg"></span>
-  </div>
+  <div class="status-box" id="status-box"><span id="status-msg"></span></div>
 
 </div>
 
 <div class="page-footer">✦ Powered by Claude with AI Director ✦</div>
 
 <script>
-// ===== タグ入力 =====
-const tagFields = ['to', 'cc', 'bcc'];
 const tags = { to: [], cc: [], bcc: [] };
-
-tagFields.forEach(field => {
-  const input = document.getElementById(`${field}-input`);
+['to','cc','bcc'].forEach(f => {
+  const input = document.getElementById(`${f}-input`);
   input.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ',') {
-      e.preventDefault();
-      addTag(field, input.value.trim());
-      input.value = '';
-    }
-    if (e.key === 'Backspace' && input.value === '' && tags[field].length > 0) {
-      removeTag(field, tags[field].length - 1);
-    }
+    if (e.key === 'Enter' || e.key === ',') { e.preventDefault(); addTag(f, input.value.trim()); input.value = ''; }
+    if (e.key === 'Backspace' && input.value === '' && tags[f].length > 0) removeTag(f, tags[f].length - 1);
   });
-  input.addEventListener('blur', () => {
-    if (input.value.trim()) {
-      addTag(field, input.value.trim());
-      input.value = '';
-    }
-  });
+  input.addEventListener('blur', () => { if (input.value.trim()) { addTag(f, input.value.trim()); input.value = ''; } });
 });
-
-function addTag(field, email) {
+function addTag(f, email) {
   if (!email) return;
-  // 簡易バリデーション
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    alert(`「${email}」は正しいメールアドレスではありません`);
-    return;
-  }
-  if (tags[field].includes(email)) return;
-  tags[field].push(email);
-  renderTags(field);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert(`「${email}」は正しいメールアドレスではありません`); return; }
+  if (tags[f].includes(email)) return;
+  tags[f].push(email); renderTags(f);
 }
-
-function removeTag(field, index) {
-  tags[field].splice(index, 1);
-  renderTags(field);
-}
-
-function renderTags(field) {
-  const wrap = document.getElementById(`${field}-wrap`);
-  const input = document.getElementById(`${field}-input`);
-  // 既存タグ削除
+function removeTag(f, i) { tags[f].splice(i, 1); renderTags(f); }
+function renderTags(f) {
+  const wrap = document.getElementById(`${f}-wrap`);
+  const input = document.getElementById(`${f}-input`);
   wrap.querySelectorAll('.tag').forEach(t => t.remove());
-  tags[field].forEach((email, i) => {
+  tags[f].forEach((email, i) => {
     const tag = document.createElement('span');
     tag.className = 'tag';
-    tag.innerHTML = `${email} <span class="tag-remove" onclick="removeTag('${field}',${i})">×</span>`;
+    tag.innerHTML = `${email} <span class="tag-remove" onclick="removeTag('${f}',${i})">×</span>`;
     wrap.insertBefore(tag, input);
   });
 }
 
-// ===== テンプレート =====
 const templates = {
-  report: {
-    subject: '【管理業務月報】2026年3月分をお送りします',
-    body: `<p>関係者各位</p>
-<p>お世話になっております。<br>長谷工コミュニティより、管理業務月報をお送りいたします。</p>
-<p>今月も安定した管理運営を実施いたしました。<br>詳細は添付PDFをご確認ください。</p>
-<p>ご不明な点がございましたら、お気軽にお問い合わせください。</p>`
-  },
-  notice: {
-    subject: '【AI Director】お知らせ',
-    body: `<p>関係者各位</p>
-<p>いつもお世話になっております。</p>
-<p>この度、システムよりお知らせがございます。<br>内容をご確認いただきますよう、よろしくお願いいたします。</p>`
-  },
-  confirm: {
-    subject: '【確認依頼】内容のご確認をお願いします',
-    body: `<p>担当者様</p>
-<p>お世話になっております。</p>
-<p>下記の内容についてご確認をお願いいたします。<br>ご確認後、お手数ですがご返信いただけますと幸いです。</p>
-<p>【確認事項】<br>・内容A<br>・内容B<br>・内容C</p>`
-  }
+  report:  { subject: '【管理業務月報】2026年3月分をお送りします', body: `<p>関係者各位</p><p>お世話になっております。<br>長谷工コミュニティより、管理業務月報をお送りいたします。</p><p>今月も安定した管理運営を実施いたしました。<br>詳細は添付PDFをご確認ください。</p><p>ご不明な点がございましたら、お気軽にお問い合わせください。</p>` },
+  notice:  { subject: '【AI Director】お知らせ', body: `<p>関係者各位</p><p>いつもお世話になっております。</p><p>この度、システムよりお知らせがございます。<br>内容をご確認いただきますよう、よろしくお願いいたします。</p>` },
+  confirm: { subject: '【確認依頼】内容のご確認をお願いします', body: `<p>担当者様</p><p>お世話になっております。</p><p>下記の内容についてご確認をお願いいたします。<br>ご確認後、お手数ですがご返信いただけますと幸いです。</p><p>【確認事項】<br>・内容A<br>・内容B<br>・内容C</p>` }
 };
-
 function selectTemplate(name) {
   document.querySelectorAll('.template-btn').forEach(b => b.classList.remove('active'));
   document.getElementById(`tpl-${name}`).classList.add('active');
-  const tpl = templates[name];
-  document.getElementById('subject').value = tpl.subject;
-  document.getElementById('body-text').value = tpl.body;
+  document.getElementById('subject').value = templates[name].subject;
+  document.getElementById('body-text').value = templates[name].body;
   updatePreview();
 }
 
-// ===== プレビュー =====
 function buildHtmlEmail(subject, bodyContent) {
   return `<!DOCTYPE html>
 <html lang="ja">
@@ -567,34 +232,38 @@ function buildHtmlEmail(subject, bodyContent) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-  body { margin:0; padding:0; background:#f0f2f5; font-family:'Hiragino Kaku Gothic ProN',Meiryo,sans-serif; }
-  .wrap { max-width:600px; margin:20px auto; background:#fff; border-radius:10px; overflow:hidden; box-shadow:0 2px 20px rgba(0,0,0,0.1); }
-  .hd { background:linear-gradient(135deg,#0a2d6e,#3a7bd5); padding:32px 30px 28px; }
-  .hd-label { font-size:10px; letter-spacing:3px; color:#f0a500; text-transform:uppercase; margin-bottom:6px; }
-  .hd-title { font-size:22px; font-weight:700; color:#fff; }
-  .hd-sub { font-size:11px; color:rgba(255,255,255,0.6); margin-top:6px; }
-  .body { padding:30px; color:#1a2540; font-size:14px; line-height:1.9; }
-  .body p { margin-bottom:14px; }
-  .divider { border:none; border-top:1px solid #e0e7f0; margin:24px 0; }
-  .footer { background:#f4f6fb; padding:16px 30px; font-size:11px; color:#8a9ab8; border-top:1px solid #e0e7f0; }
-  .footer-logo { font-size:13px; font-weight:700; color:#1a4fa8; margin-bottom:4px; }
+  body{margin:0;padding:0;background:#f0f2f5;font-family:'Hiragino Kaku Gothic ProN',Meiryo,sans-serif;}
+  .wrap{max-width:600px;margin:20px auto;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 20px rgba(0,0,0,0.1);}
+  .hd{background:#0a2d6e;padding:28px 30px 0;position:relative;overflow:hidden;}
+  .hd-moon{position:absolute;top:-30px;right:-80px;width:260px;height:130px;border-radius:50%;background:radial-gradient(ellipse at 40% 40%, #2255a8 0%, #1a3a80 45%, #0d2460 100%);}
+  .hd-ai{position:absolute;top:2px;right:10px;font-family:Georgia,serif;font-size:100px;font-weight:700;color:rgba(255,255,255,0.25);line-height:1;pointer-events:none;}
+  .hd-top{position:relative;padding-bottom:16px;}
+  .hd-label{font-size:10px;letter-spacing:3px;color:#c8a84b;text-transform:uppercase;margin-bottom:6px;}
+  .hd-title{font-size:20px;font-weight:700;color:#fff;line-height:1.4;}
+  .hd-line{border:none;border-top:1.5px solid #c8a84b;margin:0;}
+  .hd-sub{padding:8px 30px 12px;font-size:11px;color:rgba(255,255,255,0.45);}
+  .body{padding:30px;color:#1a2540;font-size:14px;line-height:1.9;}
+  .body p{margin-bottom:14px;}
+  .footer{background:#f4f6fb;padding:16px 30px;font-size:11px;color:#8a9ab8;border-top:1px solid #e0e7f0;}
+  .footer-logo{font-size:13px;font-weight:700;color:#1a4fa8;margin-bottom:4px;}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="hd">
-    <div class="hd-label">AI Director System</div>
-    <div class="hd-title">${subject || '件名'}</div>
-    <div class="hd-sub">noreply@aitech-jp.com</div>
+    <div class="hd-moon"></div>
+    <div class="hd-ai">AI</div>
+    <div class="hd-top">
+      <div class="hd-label">AI Director System</div>
+      <div class="hd-title">${subject || '件名'}</div>
+    </div>
+    <hr class="hd-line">
+    <div class="hd-sub">noreply@aitech-jp.com｜自動送信システム</div>
   </div>
-  <div class="body">
-    ${bodyContent || '<p>本文を入力してください</p>'}
-  </div>
-  <hr class="divider" style="margin:0">
+  <div class="body">${bodyContent || '<p>本文を入力してください</p>'}</div>
   <div class="footer">
     <div class="footer-logo">🏢 AI Director / 長谷工コミュニティ</div>
-    このメールは自動送信システムより送信されています。<br>
-    返信はできません。お問い合わせは担当者までご連絡ください。
+    このメールは自動送信システムより送信されています。返信はできません。
   </div>
 </div>
 </body>
@@ -602,80 +271,46 @@ function buildHtmlEmail(subject, bodyContent) {
 }
 
 function updatePreview() {
-  const subject = document.getElementById('subject').value;
-  const body = document.getElementById('body-text').value;
-  const iframe = document.getElementById('preview-iframe');
-  const html = buildHtmlEmail(subject, body);
-  iframe.srcdoc = html;
+  document.getElementById('preview-iframe').srcdoc = buildHtmlEmail(
+    document.getElementById('subject').value,
+    document.getElementById('body-text').value
+  );
 }
-
 document.getElementById('subject').addEventListener('input', updatePreview);
 document.getElementById('body-text').addEventListener('input', updatePreview);
 
-// ===== 送信 =====
 async function sendMail() {
   const toList = tags.to;
-  const ccList = tags.cc;
-  const bccList = tags.bcc;
   const subject = document.getElementById('subject').value.trim();
   const bodyText = document.getElementById('body-text').value.trim();
-
-  if (toList.length === 0) {
-    showStatus('error', '宛先（TO）を入力してください');
-    return;
-  }
-  if (!subject) {
-    showStatus('error', '件名を入力してください');
-    return;
-  }
-
+  if (toList.length === 0) { showStatus('error', '宛先（TO）を入力してください'); return; }
+  if (!subject) { showStatus('error', '件名を入力してください'); return; }
   const bodyHtml = buildHtmlEmail(subject, bodyText);
-
   const btn = document.getElementById('send-btn');
-  btn.disabled = true;
-  btn.classList.add('loading');
-  btn.querySelector('.btn-text').textContent = '送信中...';
+  btn.disabled = true; btn.classList.add('loading'); btn.querySelector('.btn-text').textContent = '送信中...';
   hideStatus();
-
   try {
     const res = await fetch('https://aitech-jp.com/sendmail_proxy.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        to:       toList.join(','),
-        cc:       ccList.join(','),
-        bcc:      bccList.join(','),
-        subject:  subject,
-        bodyText: bodyText.replace(/<[^>]+>/g, ''),
-        bodyHtml: bodyHtml
-      })
+      body: JSON.stringify({ to: toList.join(','), cc: tags.cc.join(','), bcc: tags.bcc.join(','), subject, bodyText: bodyText.replace(/<[^>]+>/g,''), bodyHtml })
     });
-
     const data = await res.json();
-    if (data.success) {
-      showStatus('success', `✅ 送信完了！ → ${toList.join(', ')}`);
-    } else {
-      showStatus('error', `❌ 送信失敗: ${data.message}`);
-    }
-  } catch (e) {
+    if (data.success) showStatus('success', `✅ 送信完了！ → ${toList.join(', ')}`);
+    else showStatus('error', `❌ 送信失敗: ${data.message}`);
+  } catch(e) {
     showStatus('error', `❌ 通信エラー: ${e.message}`);
   } finally {
-    btn.disabled = false;
-    btn.classList.remove('loading');
-    btn.querySelector('.btn-text').textContent = '✈ テスト送信する';
+    btn.disabled = false; btn.classList.remove('loading'); btn.querySelector('.btn-text').textContent = '✈ テスト送信する';
   }
 }
-
 function showStatus(type, msg) {
   const box = document.getElementById('status-box');
   box.className = `status-box ${type}`;
   document.getElementById('status-msg').textContent = msg;
 }
-function hideStatus() {
-  document.getElementById('status-box').className = 'status-box';
-}
+function hideStatus() { document.getElementById('status-box').className = 'status-box'; }
 
-// 初期化
 selectTemplate('report');
 </script>
 </body>
