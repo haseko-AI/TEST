@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
 <style>
-  :root { --blue-deep:#0a2d6e;--blue-mid:#1a4fa8;--blue-light:#3a7bd5;--blue-pale:#e8f0fb;--accent:#c8a84b;--white:#ffffff;--gray-light:#f4f6fb;--gray-border:#d0d9ee;--text-main:#1a2540;--text-sub:#5a6a8a;--success:#1a8a5a;--error:#c0392b;--radius:10px; }
+  :root{--blue-deep:#0a2d6e;--blue-mid:#1a4fa8;--blue-light:#3a7bd5;--blue-pale:#e8f0fb;--accent:#c8a84b;--white:#ffffff;--gray-light:#f4f6fb;--gray-border:#d0d9ee;--text-main:#1a2540;--text-sub:#5a6a8a;--success:#1a8a5a;--error:#c0392b;--radius:10px;}
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:'Noto Sans JP',sans-serif;background:var(--gray-light);color:var(--text-main);min-height:100vh;}
   .page-header{background:linear-gradient(135deg,var(--blue-deep) 0%,var(--blue-mid) 60%,var(--blue-light) 100%);padding:28px 32px 24px;position:relative;overflow:hidden;}
@@ -47,7 +47,7 @@
   .preview-bar{background:#e8ecf0;padding:6px 12px;display:flex;align-items:center;gap:6px;}
   .preview-dot{width:10px;height:10px;border-radius:50%;}
   .preview-bar span{font-size:11px;color:var(--text-sub);margin-left:6px;}
-  .preview-content{height:340px;overflow-y:auto;background:#f8f8f8;}
+  .preview-content{height:360px;overflow-y:auto;background:#f8f8f8;}
   .preview-content iframe{width:100%;height:100%;border:none;background:white;}
   .send-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--blue-mid),var(--blue-light));color:var(--white);border:none;border-radius:var(--radius);font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 16px rgba(26,79,168,0.3);}
   .send-btn:hover:not(:disabled){background:linear-gradient(135deg,var(--blue-deep),var(--blue-mid));box-shadow:0 6px 20px rgba(26,79,168,0.4);transform:translateY(-1px);}
@@ -182,7 +182,44 @@ function selectTemplate(name){
   updatePreview();
 }
 
-function buildHtmlEmail(subject,bodyContent){
+// ===== SVGヘッダーをBase64化してimgタグに埋め込む =====
+function buildSvgHeader(subject) {
+  // 件名が長い場合は折り返し
+  const title = subject || '件名';
+  const line1 = title.length > 22 ? title.substring(0,22) : title;
+  const line2 = title.length > 22 ? title.substring(22,44) : '';
+
+  const svgStr = `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="150" viewBox="0 0 600 150">
+  <defs>
+    <radialGradient id="mg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0a2d6e" stop-opacity="0"/>
+      <stop offset="65%" stop-color="#1e3f8a" stop-opacity="0.43"/>
+      <stop offset="100%" stop-color="#3060a8" stop-opacity="0.52"/>
+    </radialGradient>
+    <clipPath id="hc"><rect width="600" height="150"/></clipPath>
+  </defs>
+  <!-- 背景 -->
+  <rect width="600" height="150" fill="#0a2d6e"/>
+  <!-- 月：右上に横長楕円 -->
+  <ellipse cx="568" cy="10" rx="135" ry="68" fill="url(#mg)" clip-path="url(#hc)"/>
+  <!-- AI文字：さりげなく -->
+  <text x="548" y="62" font-family="Georgia,serif" font-size="44" font-weight="bold" fill="rgba(255,255,255,0.2)" clip-path="url(#hc)">AI</text>
+  <!-- ラベル -->
+  <text x="24" y="56" font-family="Arial,sans-serif" font-size="10" fill="#c8a84b" letter-spacing="3">AI DIRECTOR SYSTEM</text>
+  <!-- タイトル1行目 -->
+  <text x="24" y="84" font-family="Arial,sans-serif" font-size="19" font-weight="bold" fill="#ffffff">${line1}</text>
+  ${line2 ? `<text x="24" y="108" font-family="Arial,sans-serif" font-size="19" font-weight="bold" fill="#ffffff">${line2}</text>` : ''}
+  <!-- ゴールドライン -->
+  <rect y="132" width="600" height="2" fill="#c8a84b"/>
+  <!-- サブ -->
+  <text x="24" y="147" font-family="Arial,sans-serif" font-size="11" fill="rgba(255,255,255,0.45)">noreply@aitech-jp.com | 自動送信システム</text>
+</svg>`;
+
+  const encoded = btoa(unescape(encodeURIComponent(svgStr)));
+  return `<img src="data:image/svg+xml;base64,${encoded}" width="600" alt="AI Director System" style="display:block;width:100%;max-width:600px;">`;
+}
+
+function buildHtmlEmail(subject, bodyContent){
   return `<!DOCTYPE html>
 <html lang="ja">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -191,27 +228,9 @@ function buildHtmlEmail(subject,bodyContent){
 <tr><td align="center" style="padding:20px 10px;">
 <table width="600" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;border-radius:10px;overflow:hidden;box-shadow:0 2px 20px rgba(0,0,0,0.1);">
 
-  <!-- ヘッダー背景 -->
-  <tr><td style="background:#0a2d6e;padding:0;">
-    <table width="100%" cellpadding="0" cellspacing="0" border="0">
-      <tr>
-        <!-- 左：ラベル＋タイトル -->
-        <td width="68%" valign="bottom" style="padding:26px 0 0 26px;">
-          <p style="margin:0 0 7px 0;font-size:10px;letter-spacing:3px;color:#c8a84b;font-family:Arial,sans-serif;text-transform:uppercase;">AI DIRECTOR SYSTEM</p>
-          <p style="margin:0 0 16px 0;font-size:19px;font-weight:bold;color:#ffffff;line-height:1.4;font-family:'Hiragino Kaku Gothic ProN',Meiryo,Arial,sans-serif;">${subject||'件名'}</p>
-        </td>
-        <!-- 右：AIの文字（右上にさりげなく） -->
-        <td width="32%" valign="top" align="right" style="padding:8px 16px 0 0;overflow:hidden;">
-          <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:80px;font-weight:bold;color:rgba(255,255,255,0.2);line-height:0.9;text-align:right;">AI</p>
-        </td>
-      </tr>
-      <!-- ゴールドライン -->
-      <tr><td colspan="2" height="2" style="background:#c8a84b;font-size:0;line-height:0;padding:0;">&nbsp;</td></tr>
-      <!-- サブ -->
-      <tr><td colspan="2" style="padding:8px 26px 14px;">
-        <p style="margin:0;font-size:11px;color:rgba(255,255,255,0.45);font-family:Arial,sans-serif;">noreply@aitech-jp.com｜自動送信システム</p>
-      </td></tr>
-    </table>
+  <!-- SVGヘッダー：1枚絵なので崩れない -->
+  <tr><td style="padding:0;line-height:0;">
+    ${buildSvgHeader(subject)}
   </td></tr>
 
   <!-- 本文 -->
